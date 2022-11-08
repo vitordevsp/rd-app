@@ -33,7 +33,7 @@ const challenges = [
 
 export default function Home() {
   return (
-    <Stack margin="40px 24px">
+    <Stack maxWidth="600px" padding="40px 24px" margin="0 auto">
       <Stack align="center">
         <Heading
           fontSize="md"
