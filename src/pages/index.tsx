@@ -1,9 +1,31 @@
-import { useState } from "react"
-import { Checkbox, Heading, Stack, Text } from "@chakra-ui/react"
-import { formatDateBr, getCurrentDate, addDaysToDate, subDaysFromDate } from "utils/dateUtil"
+import { useEffect, useState } from "react"
+import { Checkbox, Heading, IconButton, Stack, Text } from "@chakra-ui/react"
+import { ChevronLeftIcon, ChevronRightIcon } from "@chakra-ui/icons"
+import { formatDateBr, getCurrentDate, addDaysToDate, subDaysFromDate, dateIsEqual } from "utils/dateUtil"
 import challenges from "data/challenges.json"
 
 export default function Home() {
+  const [configDate, setConfigDate] = useState({
+    today: "",
+    firstDate: "",
+  })
+
+  useEffect(() => {
+    let firstDate = localStorage.getItem("@rd_app:firstDate")
+
+    const today = getCurrentDate()
+
+    if (!firstDate) {
+      localStorage.setItem("@rd_app:firstDate", today)
+      firstDate = today
+    }
+
+    setConfigDate({
+      today,
+      firstDate,
+    })
+  }, [])
+
   const [selectedDate, setSelectedDate] = useState(() => {
     const today = getCurrentDate()
     const formattedDate = formatDateBr(today)
@@ -55,10 +77,26 @@ export default function Home() {
         </Heading>
       </Stack>
 
-      <Stack spacing="6" justify="center" isInline>
-        <Text onClick={rewindTheDate}>{"<"}</Text>
+      <Stack spacing="4" align="center" justify="center" isInline>
+        <IconButton
+          variant="none"
+          colorScheme="teal"
+          aria-label="Voltar data"
+          icon={<ChevronLeftIcon />}
+          onClick={rewindTheDate}
+          disabled={dateIsEqual(selectedDate.date, configDate.firstDate)}
+        />
+
         <Text>{selectedDate.formattedDate}</Text>
-        <Text onClick={advanceTheDate}>{">"}</Text>
+
+        <IconButton
+          variant="none"
+          colorScheme="teal"
+          aria-label="Avançar data"
+          icon={<ChevronRightIcon />}
+          onClick={advanceTheDate}
+          disabled={dateIsEqual(configDate.today, selectedDate.date)}
+        />
       </Stack>
 
       <Stack spacing={5}>
