@@ -23,12 +23,12 @@ export default function Home() {
   })
 
   useEffect(() => {
-    let firstDate = localStorage.getItem("@rd_app:firstDate")
+    let firstDate = localStorage.getItem("@rd_desafios:firstDate")
 
     const today = getCurrentDate()
 
     if (!firstDate) {
-      localStorage.setItem("@rd_app:firstDate", today)
+      localStorage.setItem("@rd_desafios:firstDate", today)
       firstDate = today
     }
 
@@ -45,7 +45,7 @@ export default function Home() {
   }, [selectedDate.date])
 
   const setStorageChallengesInTheState = (key: string) => {
-    const challengesJSON = localStorage.getItem("@rd_app:challenges")
+    const challengesJSON = localStorage.getItem("@rd_desafios:challenges")
 
     try {
       if (!challengesJSON) throw new Error("No challenges")
@@ -60,7 +60,7 @@ export default function Home() {
           [key]: challengesData,
         })
 
-        localStorage.setItem("@rd_app:challenges", challengesJSONInput)
+        localStorage.setItem("@rd_desafios:challenges", challengesJSONInput)
 
         setChallenges(challengesData)
       }
@@ -72,14 +72,14 @@ export default function Home() {
         [key]: challengesData,
       })
 
-      localStorage.setItem("@rd_app:challenges", challengesJSONInput)
+      localStorage.setItem("@rd_desafios:challenges", challengesJSONInput)
 
       setChallenges(challengesData)
     }
   }
 
   const updateStorageChallenges = (data: any) => {
-    const challengesJSON = localStorage.getItem("@rd_app:challenges")
+    const challengesJSON = localStorage.getItem("@rd_desafios:challenges")
 
     try {
       if (!challengesJSON) throw new Error("No challenges")
@@ -93,7 +93,7 @@ export default function Home() {
         [selectedDate.date]: data,
       })
 
-      localStorage.setItem("@rd_app:challenges", parsedData)
+      localStorage.setItem("@rd_desafios:challenges", parsedData)
     }
     catch { }
   }
