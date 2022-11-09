@@ -12,9 +12,9 @@ const colors = {
     dark: "cyan.700",
   },
   background: {
-    light: "blackAlpha.700",
-    default: "blackAlpha.800",
-    dark: "blackAlpha.900",
+    light: "gray.600",
+    default: "gray.700",
+    dark: "gray.800",
   },
   font: {
     light: "gray.50",
