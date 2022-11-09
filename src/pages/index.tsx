@@ -61,6 +61,8 @@ export default function Home() {
         })
 
         localStorage.setItem("@rd_app:challenges", challengesJSONInput)
+
+        setChallenges(challengesData)
       }
       else {
         setChallenges(todayChallenges)
@@ -71,7 +73,29 @@ export default function Home() {
       })
 
       localStorage.setItem("@rd_app:challenges", challengesJSONInput)
+
+      setChallenges(challengesData)
     }
+  }
+
+  const updateStorageChallenges = (data: any) => {
+    const challengesJSON = localStorage.getItem("@rd_app:challenges")
+
+    try {
+      if (!challengesJSON) throw new Error("No challenges")
+
+      const challengesStorage = JSON.parse(challengesJSON)
+
+      challengesStorage
+
+      const parsedData = JSON.stringify({
+        ...challengesStorage,
+        [selectedDate.date]: data,
+      })
+
+      localStorage.setItem("@rd_app:challenges", parsedData)
+    }
+    catch { }
   }
 
   const rewindTheDate = () => {
@@ -92,6 +116,20 @@ export default function Home() {
       date: advancedDate,
       formattedDate,
     })
+  }
+
+  const changeTheChallengerState = (id: string) => {
+    const modifiedChallenges = challenges.map(challenge => {
+      if (challenge.id === id) return {
+        ...challenge,
+        isChecked: !challenge.isChecked,
+      }
+      else return challenge
+    })
+
+    setChallenges(modifiedChallenges)
+
+    updateStorageChallenges(modifiedChallenges)
   }
 
   return (
@@ -139,7 +177,12 @@ export default function Home() {
         <Heading fontSize="3xl" color="red.500">Hoje eu...</Heading>
 
         {challenges.map(challenger => (
-          <Checkbox key={challenger.id} size="lg" isChecked={challenger.isChecked}>
+          <Checkbox
+            key={challenger.id}
+            size="lg"
+            isChecked={challenger.isChecked}
+            onChange={() => changeTheChallengerState(challenger.id)}
+          >
             {challenger.text}
           </Checkbox>
         ))}
