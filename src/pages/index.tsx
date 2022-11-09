@@ -2,12 +2,24 @@ import { useEffect, useState } from "react"
 import { Checkbox, Heading, IconButton, Stack, Text } from "@chakra-ui/react"
 import { ChevronLeftIcon, ChevronRightIcon } from "@chakra-ui/icons"
 import { formatDateBr, getCurrentDate, addDaysToDate, subDaysFromDate, dateIsEqual } from "utils/dateUtil"
-import challenges from "data/challenges.json"
+import challengesData from "data/challenges.json"
 
 export default function Home() {
   const [configDate, setConfigDate] = useState({
     today: "",
     firstDate: "",
+  })
+
+  const [challenges, setChallenges] = useState(challengesData)
+
+  const [selectedDate, setSelectedDate] = useState(() => {
+    const today = getCurrentDate()
+    const formattedDate = formatDateBr(today)
+
+    return {
+      date: today,
+      formattedDate,
+    }
   })
 
   useEffect(() => {
@@ -24,17 +36,43 @@ export default function Home() {
       today,
       firstDate,
     })
+
+    setStorageChallengesInTheState(today)
   }, [])
 
-  const [selectedDate, setSelectedDate] = useState(() => {
-    const today = getCurrentDate()
-    const formattedDate = formatDateBr(today)
+  useEffect(() => {
+    setStorageChallengesInTheState(selectedDate.date)
+  }, [selectedDate.date])
 
-    return {
-      date: today,
-      formattedDate,
+  const setStorageChallengesInTheState = (key: string) => {
+    const challengesJSON = localStorage.getItem("@rd_app:challenges")
+
+    try {
+      if (!challengesJSON) throw new Error("No challenges")
+
+      const challengesStorage = JSON.parse(challengesJSON)
+
+      const todayChallenges = challengesStorage[key]
+
+      if (!todayChallenges) {
+        const challengesJSONInput = JSON.stringify({
+          ...challengesStorage,
+          [key]: challengesData,
+        })
+
+        localStorage.setItem("@rd_app:challenges", challengesJSONInput)
+      }
+      else {
+        setChallenges(todayChallenges)
+      }
+    } catch {
+      const challengesJSONInput = JSON.stringify({
+        [key]: challengesData,
+      })
+
+      localStorage.setItem("@rd_app:challenges", challengesJSONInput)
     }
-  })
+  }
 
   const rewindTheDate = () => {
     const dateBackwards = subDaysFromDate(selectedDate.date)
@@ -80,7 +118,6 @@ export default function Home() {
       <Stack spacing="4" align="center" justify="center" isInline>
         <IconButton
           variant="none"
-          colorScheme="teal"
           aria-label="Voltar data"
           icon={<ChevronLeftIcon />}
           onClick={rewindTheDate}
@@ -91,7 +128,6 @@ export default function Home() {
 
         <IconButton
           variant="none"
-          colorScheme="teal"
           aria-label="Avançar data"
           icon={<ChevronRightIcon />}
           onClick={advanceTheDate}
@@ -103,7 +139,7 @@ export default function Home() {
         <Heading fontSize="3xl" color="red.500">Hoje eu...</Heading>
 
         {challenges.map(challenger => (
-          <Checkbox key={challenger.id} size="lg">
+          <Checkbox key={challenger.id} size="lg" isChecked={challenger.isChecked}>
             {challenger.text}
           </Checkbox>
         ))}
