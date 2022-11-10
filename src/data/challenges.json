@@ -5,8 +5,8 @@
     "isChecked": false
   },
   {
-    "id": "2",
-    "text": "Li min 5 páginas de 1 livro",
+    "id": "7",
+    "text": "Dormi pelo menos 7h/noite",
     "isChecked": false
   },
   {
@@ -15,13 +15,8 @@
     "isChecked": false
   },
   {
-    "id": "4",
-    "text": "Comi saudável e não ingeri álcool",
-    "isChecked": false
-  },
-  {
-    "id": "5",
-    "text": "Bebi pelo menos 2L de água",
+    "id": "2",
+    "text": "Li mín 5 páginas de 1 livro",
     "isChecked": false
   },
   {
@@ -30,8 +25,13 @@
     "isChecked": false
   },
   {
-    "id": "7",
-    "text": "Dormi pelo monos 7h/noite",
+    "id": "5",
+    "text": "Bebi pelo menos 2L de água",
+    "isChecked": false
+  },
+  {
+    "id": "4",
+    "text": "Comi saudável e não ingeri álcool",
     "isChecked": false
   }
 ]
