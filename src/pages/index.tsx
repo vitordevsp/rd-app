@@ -1,8 +1,15 @@
 import { useEffect, useState } from "react"
 import { Checkbox, Heading, IconButton, Stack, Text } from "@chakra-ui/react"
 import { ChevronLeftIcon, ChevronRightIcon } from "@chakra-ui/icons"
-import { formatDateBr, getCurrentDate, addDaysToDate, subDaysFromDate, dateIsEqual } from "utils/dateUtil"
+import {
+  formatDateBr,
+  getCurrentDate,
+  addDaysToDate,
+  subDaysFromDate,
+  dateIsEqual,
+} from "utils/dateUtil"
 import challengesData from "data/challenges.json"
+import { IChallenger } from "types/challenges"
 
 export default function Home() {
   const [configDate, setConfigDate] = useState({
@@ -10,7 +17,7 @@ export default function Home() {
     firstDate: "",
   })
 
-  const [challenges, setChallenges] = useState(challengesData)
+  const [challenges, setChallenges] = useState<IChallenger[]>(challengesData)
 
   const [selectedDate, setSelectedDate] = useState(() => {
     const today = getCurrentDate()
@@ -78,7 +85,7 @@ export default function Home() {
     }
   }
 
-  const updateStorageChallenges = (data: any) => {
+  const updateStorageChallenges = (data: IChallenger[]) => {
     const challengesJSON = localStorage.getItem("@rd_desafios:challenges")
 
     try {
