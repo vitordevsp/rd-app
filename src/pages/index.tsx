@@ -1,3 +1,4 @@
+import Head from "next/head"
 import { useEffect, useState } from "react"
 import { Checkbox, Heading, IconButton, Stack, Text } from "@chakra-ui/react"
 import { ChevronLeftIcon, ChevronRightIcon } from "@chakra-ui/icons"
@@ -140,60 +141,67 @@ export default function Home() {
   }
 
   return (
-    <Stack maxWidth="600px" padding="40px 24px" margin="0 auto" spacing="6">
-      <Stack align="center">
-        <Heading
-          fontSize="md"
-          letterSpacing="6px"
-          fontWeight="light"
-        >
-          DESAFIO
-        </Heading>
+    <>
+      <Head>
+        <title>RD Desafios</title>
+      </Head>
 
-        <Heading
-          as="h1"
-          fontSize="4xl"
-          letterSpacing="4px"
-          color="red.500"
-        >
-          #RD30
-        </Heading>
-      </Stack>
-
-      <Stack spacing="4" align="center" justify="center" isInline>
-        <IconButton
-          variant="none"
-          aria-label="Voltar data"
-          icon={<ChevronLeftIcon />}
-          onClick={rewindTheDate}
-          disabled={dateIsEqual(selectedDate.date, configDate.firstDate)}
-        />
-
-        <Text>{selectedDate.formattedDate}</Text>
-
-        <IconButton
-          variant="none"
-          aria-label="Avançar data"
-          icon={<ChevronRightIcon />}
-          onClick={advanceTheDate}
-          disabled={dateIsEqual(configDate.today, selectedDate.date)}
-        />
-      </Stack>
-
-      <Stack spacing={5}>
-        <Heading fontSize="3xl" color="red.500">Hoje eu...</Heading>
-
-        {challenges.map(challenger => (
-          <Checkbox
-            key={challenger.id}
-            size="lg"
-            isChecked={challenger.isChecked}
-            onChange={() => changeTheChallengerState(challenger.id)}
+      <Stack maxWidth="600px" padding="40px 24px" margin="0 auto" spacing="6">
+        <Stack align="center">
+          <Heading
+            fontSize="md"
+            letterSpacing="6px"
+            fontWeight="light"
           >
-            {challenger.text}
-          </Checkbox>
-        ))}
+            DESAFIO
+          </Heading>
+
+          <Heading
+            as="h1"
+            fontSize="4xl"
+            letterSpacing="4px"
+            color="red.500"
+          >
+            #RD30
+          </Heading>
+        </Stack>
+
+        <Stack spacing="4" align="center" justify="center" isInline>
+          <IconButton
+            variant="none"
+            aria-label="Voltar data"
+            icon={<ChevronLeftIcon />}
+            onClick={rewindTheDate}
+            disabled={dateIsEqual(selectedDate.date, configDate.firstDate)}
+          />
+
+          <Text>{selectedDate.formattedDate}</Text>
+
+          <IconButton
+            variant="none"
+            aria-label="Avançar data"
+            icon={<ChevronRightIcon />}
+            onClick={advanceTheDate}
+            disabled={dateIsEqual(configDate.today, selectedDate.date)}
+          />
+        </Stack>
+
+        <Stack spacing={5}>
+          <Heading fontSize="3xl" color="red.500">Hoje eu...</Heading>
+
+          {challenges.map(challenger => (
+            <Checkbox
+              key={challenger.id}
+              size="lg"
+              isChecked={challenger.isChecked}
+              onChange={() => changeTheChallengerState(challenger.id)}
+            >
+              {challenger.text}
+            </Checkbox>
+          ))}
+        </Stack>
       </Stack>
-    </Stack>
+    </>
+
   )
 }
